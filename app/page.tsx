@@ -1,9 +1,19 @@
+const clientId = process.env.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY || "";
+const scope = process.env.SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE || "";
+const redirectUri = "http://localhost:3000/callback"; // 認証後のリダイレクト先 フロント側のURL
+const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+  redirectUri
+)}&scope=${encodeURIComponent(scope)}`;
+
 export default function Home() {
   return (
     <div className="max-w-screen-sm m-auto min-h-screen flex flex-col gap-16 justify-center items-center">
       <h1 className="font-bold text-6xl">everstudy</h1>
 
-      <button className="flex items-center gap-2 border rounded h-10 px-4 hover:bg-black/5">
+      <a
+        href={authUrl}
+        className="flex items-center gap-2 border rounded h-10 px-4 hover:bg-black/5"
+      >
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +40,7 @@ export default function Home() {
           <path fill="none" d="M0 0h48v48H0z"></path>
         </svg>
         <span className="text-sm text-center">Googleでログイン</span>
-      </button>
+      </a>
     </div>
   );
 }

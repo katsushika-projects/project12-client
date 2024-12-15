@@ -1,15 +1,34 @@
+"use client";
 import Overview from "@/components/overview";
 import TaskCard from "@/components/taskCard";
 import { Button } from "@/components/ui/button";
+import { api } from "@/lib/axios";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const page = () => {
-  const task = true;
+const Page = () => {
+  const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
+        const res = await api.get("/api/tasks", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = res.data;
+        setTasks(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTasks();
+  }, []);
+
   return (
     <div className="mx-auto max-w-screen-lg px-4 lg:px-8 py-10 space-y-10">
       <Overview />
-      {task ? (
+      {tasks.length > 0 ? (
         <>
           <TaskCard variant="default" />
           <TaskCard variant="danger" />
@@ -36,4 +55,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

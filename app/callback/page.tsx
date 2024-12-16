@@ -34,7 +34,7 @@ const CallbackPage = () => {
       }
     };
     fetchLogin();
-  }, []);
+  }, [router]);
   return <div>page</div>;
 };
 

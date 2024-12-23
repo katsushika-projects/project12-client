@@ -63,9 +63,15 @@ const CreateTask = () => {
       const token = localStorage.getItem("access_token");
       if (!token) return;
 
-      await api.post("/api/tasks/", values, {
+      const res = await api.post("/api/tasks/", values, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      const data = res.data;
+      await api.post(
+        `/api/tasks/${data.id}/verify-and-start/`,
+        { task_id: data.id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       router.push("/dashboard");
     } catch (error) {
       console.error(error);

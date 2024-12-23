@@ -23,9 +23,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { api } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronsUpDown, CircleHelp } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -43,6 +45,7 @@ const formSchema = z.object({
 const CreateTask = () => {
   const [checked, setChecked] = useState(false);
   const [selectTime, setSelectTime] = useState({ hour: 0, min: 0 });
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,8 +57,19 @@ const CreateTask = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) return;
+
+      await api.post("/api/tasks/", values, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      router.push("/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {
@@ -87,9 +101,9 @@ const CreateTask = () => {
               <FormItem>
                 <FormLabel className="flex items-center gap-1">
                   金額
-                  <TooltipProvider>
+                  <TooltipProvider delayDuration={400}>
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger type="button">
                         <CircleHelp
                           size={16}
                           className="text-muted-foreground"

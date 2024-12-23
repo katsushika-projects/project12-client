@@ -17,6 +17,7 @@ const Page = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = res.data;
+        console.log(data);
         setTasks(data);
       } catch (error) {
         console.error(error);

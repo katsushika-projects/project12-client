@@ -35,7 +35,7 @@ const CallbackPage = () => {
     };
     fetchLogin();
   }, [router]);
-  return <div>page</div>;
+  return <div>ログイン中...</div>;
 };
 
 export default CallbackPage;

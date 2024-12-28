@@ -8,3 +8,7 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const formDataApi = axios.create({
+  baseURL: apiUrl,
+});

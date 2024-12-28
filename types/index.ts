@@ -13,3 +13,13 @@ export type Task = {
   updated_at: string;
   user: string;
 };
+
+export type Comment = {
+  id: string;
+  user: string;
+  task: string;
+  minutes: number;
+  is_studying: boolean;
+  comment: string;
+  created_at: string;
+};

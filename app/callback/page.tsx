@@ -1,5 +1,6 @@
 "use client";
 import { api } from "@/lib/axios";
+import { useUserContext } from "@/contexts/UserProvider";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -7,6 +8,7 @@ const djangoClientId = process.env.NEXT_PUBLIC_DJANGO_CLIENT_ID_OF_GOOGLE;
 
 const CallbackPage = () => {
   const router = useRouter();
+  const { setUser } = useUserContext();
 
   useEffect(() => {
     const hash = window.location.hash.substring(1);
@@ -28,13 +30,14 @@ const CallbackPage = () => {
         console.log(data);
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
+        setUser(data.user);
         router.push("/dashboard");
       } catch (error) {
         console.error(error);
       }
     };
     fetchLogin();
-  }, [router]);
+  }, []);
   return <div>ログイン中...</div>;
 };
 

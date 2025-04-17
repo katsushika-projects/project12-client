@@ -2,7 +2,7 @@
 import { createContext, useContext, useState } from "react";
 
 interface User {
-  email: string;
+  email?: string;
   first_name: string;
   last_name: string;
 }

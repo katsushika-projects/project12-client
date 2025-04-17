@@ -20,7 +20,6 @@ export default function AiCommentLists() {
       });
       const data = res.data;
       setComments(data);
-      console.log(data);
     } catch (error) {
       console.error(error);
     }

@@ -27,7 +27,6 @@ const CallbackPage = () => {
           token: token,
         });
         const data = res.data;
-        console.log(data);
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
         setUser(data.user);
@@ -38,7 +37,11 @@ const CallbackPage = () => {
     };
     fetchLogin();
   }, []);
-  return <div>ログイン中...</div>;
+  return (
+    <div className="min-h-svh flex w-full justify-center items-center text-xl font-bold">
+      ログイン中...
+    </div>
+  );
 };
 
 export default CallbackPage;

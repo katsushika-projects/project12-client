@@ -7,8 +7,10 @@ const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=toke
 
 export default function Home() {
   return (
-    <div className="max-w-screen-sm m-auto min-h-screen flex flex-col gap-16 justify-center items-center">
-      <h1 className="font-bold text-6xl">everstudy</h1>
+    <div className="max-w-screen-sm m-auto min-h-svh flex flex-col gap-8 md:gap-16 justify-center items-center">
+      <h1 className="font-bold tracking-tight text-5xl md:text-6xl">
+        everstudy
+      </h1>
 
       <a
         href={authUrl}

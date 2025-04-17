@@ -1,8 +1,8 @@
 "use client";
 import { LogOut, Plus, Settings } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/UserProvider";
 
@@ -22,12 +22,13 @@ const Header = () => {
     const result = confirm("ログアウトしますか？");
     if (!result) return;
     localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     router.push("/");
   };
 
   return (
-    <div className="w-full px-4 lg:px-8 flex justify-between py-4">
-      <Link href={"/dashboard"} className="text-xl font-semibold">
+    <div className="w-full px-4 lg:px-8 flex justify-between items-center py-3 md:py-4 sticky top-0 bg-background/90 z-40">
+      <Link href={"/dashboard"} className="text-lg md:text-xl font-semibold">
         everstudy
       </Link>
       <div className="flex gap-3 items-center">
@@ -39,7 +40,7 @@ const Header = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger className="rounded-full">
-            <Avatar className="border border-input">
+            <Avatar className="border border-input w-9 h-9 md:w-10 md:h-10">
               <AvatarImage
                 src={`https://api.dicebear.com/9.x/shapes/svg?seed=${
                   user?.first_name || "" + user?.last_name || ""

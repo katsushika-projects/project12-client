@@ -23,7 +23,6 @@ export default function Video() {
     let timeoutId: NodeJS.Timeout;
 
     const startTimeout = () => {
-      console.log("startTimeout");
       timeoutId = setTimeout(() => {
         captureImage();
 
@@ -60,18 +59,13 @@ export default function Video() {
           try {
             const token = localStorage.getItem("access_token");
             if (!token) return;
-            const res = await formDataApi.post(
-              `/api/tasks/${taskId}/logs/`,
-              formData,
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
+            await formDataApi.post(`/api/tasks/${taskId}/logs/`, formData, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
 
             // aiCommentLists.tsxでgetリクエストを実行するためのコードを追加
             const event = new CustomEvent("fetchAiCommentLists");
             window.dispatchEvent(event);
-
-            const data = res.data;
-            console.log(data);
           } catch (error) {
             console.error(error);
           }
@@ -94,13 +88,13 @@ export default function Video() {
         />
         {!isWebcamStarted && (
           <div className="bg-neutral-200 flex flex-col gap-4 justify-center items-center h-full w-full rounded-md absolute inset-0">
-            <TVSignin className="fill-muted-foreground" />
-            <h3 className="text-2xl font-bold">カメラ映像を非表示</h3>
+            <TVSignin className="fill-muted-foreground size-16 md:size-40" />
+            <h3 className="md:text-2xl font-bold">カメラ映像を非表示</h3>
           </div>
         )}
       </div>
       <div className="pt-2 flex flex-wrap gap-2 items-center justify-between">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           ※画面の表示・非表示に関わらず、カメラの映像を取得しています
         </p>
         <div className="flex items-center gap-1">

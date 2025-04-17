@@ -38,7 +38,11 @@ const CallbackPage = () => {
     };
     fetchLogin();
   }, []);
-  return <div>ログイン中...</div>;
+  return (
+    <div className="min-h-svh flex w-full justify-center items-center text-xl font-bold">
+      ログイン中...
+    </div>
+  );
 };
 
 export default CallbackPage;

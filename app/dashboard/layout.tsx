@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Header from "@/components/layout/header";
 
 export default function DashboardLayout({
   children,
@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex-1">
       <Header />
       <main>{children}</main>
     </div>

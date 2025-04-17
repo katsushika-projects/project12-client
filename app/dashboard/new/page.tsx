@@ -58,7 +58,6 @@ const CreateTask = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     try {
       const token = localStorage.getItem("access_token");
       if (!token) return;
@@ -67,12 +66,11 @@ const CreateTask = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = res.data;
-      await api.post(
-        `/api/tasks/${data.id}/verify-and-start/`,
-        { task_id: data.id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      router.push("/dashboard");
+      // if (data.payment_url) {
+      //   window.location.href = data.payment_url;
+      // }
+
+      router.push(`/dashboard?taskId=${data.task.id}&payment=success`);
     } catch (error) {
       console.error(error);
     }
@@ -83,8 +81,8 @@ const CreateTask = () => {
   }, [selectTime, form]);
 
   return (
-    <div className="max-w-screen-sm mx-auto px-6 py-10">
-      <h1 className="font-bold text-2xl pb-8">タスク作成</h1>
+    <div className="max-w-screen-sm mx-auto px-6 py-8 md:py-10">
+      <h1 className="font-bold text-xl md:text-2xl pb-6 md:pb-8">タスク作成</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -94,7 +92,7 @@ const CreateTask = () => {
               <FormItem>
                 <FormLabel>タスク名</FormLabel>
                 <FormControl>
-                  <Input placeholder="例) TOEICの勉強" {...field} />
+                  <Input placeholder="例）TOEICの勉強" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -251,7 +249,7 @@ const CreateTask = () => {
             name="requires_new_task_creation"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="block">タスク達成条件</FormLabel>
+                <FormLabel>タスク達成条件</FormLabel>
                 <div className="flex items-center gap-2">
                   <FormControl>
                     <Checkbox
@@ -284,7 +282,7 @@ const CreateTask = () => {
               に同意する
             </p>
           </div>
-          <Button type="submit" disabled={!checked}>
+          <Button type="submit" disabled={!checked} className="w-full md:w-fit">
             作成
           </Button>
         </form>

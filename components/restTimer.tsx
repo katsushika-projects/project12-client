@@ -52,8 +52,10 @@ export default function RestTimer({
   }, [dueTime]);
 
   return (
-    <div className={`flex gap-1 items-center ${cardClass}`}>
-      <Clock className="size-4" />
+    <div
+      className={`flex gap-1 items-center md:text-base text-sm ${cardClass}`}
+    >
+      <Clock className="size-3 md:size-4" />
       <p className="leading-none tracking-wide">残り{restTime}</p>
     </div>
   );

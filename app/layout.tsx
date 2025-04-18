@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { UserProvider } from "@/contexts/UserProvider";
 import Footer from "@/components/layout/footer";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "everstudy",
@@ -39,9 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="min-h-svh flex flex-col">
-        <UserProvider>{children}</UserProvider>
-        <Footer />
+      <body>
+        <div className="min-h-svh flex flex-col">
+          <UserProvider>{children}</UserProvider>
+          <Footer />
+        </div>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

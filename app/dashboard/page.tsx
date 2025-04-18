@@ -7,11 +7,17 @@ import { api } from "@/lib/axios";
 import { Task } from "@/types";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const Page = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const taskId = searchParams.get("taskId");
+  const paymentStatus = searchParams.get("payment");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -22,7 +28,6 @@ const Page = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = res.data;
-        console.log(data);
         setTasks(data);
       } catch (error) {
         console.error(error);
@@ -31,7 +36,31 @@ const Page = () => {
       }
     };
     fetchTasks();
-  }, []);
+  }, [router]);
+
+  useEffect(() => {
+    if (paymentStatus === "success" && taskId) {
+      const verify = async () => {
+        const token = localStorage.getItem("access_token");
+        toast.promise(
+          await api.post(
+            `/api/tasks/${taskId}/verify-and-start/`,
+            { task_id: taskId },
+            { headers: { Authorization: `Bearer ${token}` } }
+          ),
+          {
+            loading: "決済を確認中です...",
+            success: "決済成功！タスクが開始されました！",
+            error: "決済確認中にエラーが発生しました",
+          }
+        );
+
+        router.replace("/dashboard", { scroll: false });
+      };
+
+      verify();
+    }
+  }, [paymentStatus, taskId, router]);
 
   if (isLoading) {
     return <Loading />;

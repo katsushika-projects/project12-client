@@ -6,8 +6,6 @@ import axios, {
 
 const apiUrl = process.env.API_URL || "http://localhost:8000";
 const djangoClientId = process.env.NEXT_PUBLIC_DJANGO_CLIENT_ID_OF_GOOGLE;
-const djangoClientSecret =
-  process.env.NEXT_PUBLIC_DJANGO_CLIENT_SECRET_OF_GOOGLE;
 
 export const api = axios.create({
   baseURL: apiUrl,
@@ -44,7 +42,6 @@ api.interceptors.response.use(
           {
             grant_type: "refresh_token",
             client_id: djangoClientId,
-            client_secret: djangoClientSecret,
             refresh_token: refreshToken,
           },
           { headers: { "Content-Type": "application/json" } }

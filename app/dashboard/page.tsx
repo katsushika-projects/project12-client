@@ -21,7 +21,6 @@ const Page = () => {
 
   const fetchTasks = async () => {
     try {
-      setIsLoading(true);
       const token = localStorage.getItem("access_token");
       const res = await api.get("/api/tasks", {
         headers: { Authorization: `Bearer ${token}` },
@@ -36,9 +35,11 @@ const Page = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchTasks();
-    setIsLoading(false);
+    (async () => {
+      setIsLoading(true);
+      await fetchTasks();
+      setIsLoading(false);
+    })();
   }, [router]);
 
   useEffect(() => {

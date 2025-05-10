@@ -84,22 +84,27 @@ const TaskCard = ({ variant, task }: Props) => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-between items-center p-5 md:p-8 pt-0 md:pt-0">
-        {task.new_task_created ? (
-          <div className="flex gap-1 md:gap-2 items-center text-sm md:text-base">
-            <Check className="text-green-600 md:size-6 size-4" />
-            新しいタスク作成済み
-          </div>
-        ) : (
-          <div className="flex gap-1 md:gap-2 items-center text-sm md:text-base">
-            <Check className="text-neutral-300 md:size-6 size-4" />
-            新しいタスク未作成
-          </div>
+        {task.requires_new_task_creation && (
+          <>
+            {task.new_task_created ? (
+              <div className="flex gap-1 md:gap-2 items-center text-sm md:text-base">
+                <Check className="text-green-600 md:size-6 size-4" />
+                新しいタスク作成済み
+              </div>
+            ) : (
+              <div className="flex gap-1 md:gap-2 items-center text-sm md:text-base">
+                <Check className="text-neutral-300 md:size-6 size-4" />
+                新しいタスク未作成
+              </div>
+            )}
+          </>
         )}
         <Button
           variant={variant === "danger" ? "destructive" : "default"}
-          className={
-            variant === "success" || variant === "failure" ? "hidden" : "flex"
-          }
+          className={`
+           ${variant === "success" || variant === "failure" ? "hidden" : "flex"}
+          mr-0 ml-auto
+          `}
           asChild
         >
           <Link href={`/dashboard/${task.id}`}>

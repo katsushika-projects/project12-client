@@ -19,23 +19,26 @@ const Page = () => {
   const paymentStatus = searchParams.get("payment");
   const router = useRouter();
 
+  const fetchTasks = async () => {
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem("access_token");
+      const res = await api.get("/api/tasks", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = res.data;
+      setTasks(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setIsLoading(true);
-        const token = localStorage.getItem("access_token");
-        const res = await api.get("/api/tasks", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = res.data;
-        setTasks(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    setIsLoading(true);
     fetchTasks();
+    setIsLoading(false);
   }, [router]);
 
   useEffect(() => {
@@ -55,10 +58,14 @@ const Page = () => {
           }
         );
 
+        fetchTasks();
         router.replace("/dashboard", { scroll: false });
       };
 
       verify();
+    }
+    if (paymentStatus === "cancel" && taskId) {
+      toast.error("決済がキャンセルされました");
     }
   }, [paymentStatus, taskId, router]);
 

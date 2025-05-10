@@ -27,7 +27,6 @@ import { api } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronsUpDown, CircleHelp } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -45,7 +44,6 @@ const formSchema = z.object({
 const CreateTask = () => {
   const [checked, setChecked] = useState(false);
   const [selectTime, setSelectTime] = useState({ hour: 0, min: 0 });
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,11 +64,10 @@ const CreateTask = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = res.data;
-      // if (data.payment_url) {
-      //   window.location.href = data.payment_url;
-      // }
+      if (data.payment_url) {
+        window.location.href = data.payment_url;
+      }
 
-      router.push(`/dashboard?taskId=${data.task.id}&payment=success`);
     } catch (error) {
       console.error(error);
     }

@@ -4,7 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
-const apiUrl = process.env.API_URL || "http://localhost:8000";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 const djangoClientId = process.env.NEXT_PUBLIC_DJANGO_CLIENT_ID_OF_GOOGLE;
 
 export const api = axios.create({

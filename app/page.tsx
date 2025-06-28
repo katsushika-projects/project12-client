@@ -1,8 +1,8 @@
 import Google from "@/components/icons/google";
 
-const clientId = process.env.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY || "";
-const scope = process.env.SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE || "";
-const redirectUri = "http://localhost:3000/callback"; // 認証後のリダイレクト先 フロント側のURL
+const clientId = process.env.NEXT_PUBLIC_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY || "";
+const scope = process.env.NEXT_PUBLIC_SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE || "";
+const redirectUri = `${process.env.NEXT_PUBLIC_CLIENT_URL}/callback`; // 認証後のリダイレクト先 フロント側のURL
 const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
   redirectUri
 )}&scope=${encodeURIComponent(scope)}`;

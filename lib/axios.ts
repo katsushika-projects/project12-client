@@ -38,7 +38,7 @@ api.interceptors.response.use(
         }
         // リフレッシュエンドポイントにリクエスト
         const { data } = await axios.post(
-          "http://localhost:8000/auth/token",
+          `${apiUrl}/auth/token`,
           {
             grant_type: "refresh_token",
             client_id: djangoClientId,

@@ -1,4 +1,5 @@
 "use client";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -25,7 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import { api } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronsUpDown, CircleHelp } from "lucide-react";
+import { ChevronsUpDown, CircleHelp, Info } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,8 +37,17 @@ const formSchema = z.object({
     .string()
     .min(1, "タスク名は必須です")
     .max(40, "40文字以内で入力してください"),
-  fine: z.coerce.number(),
-  target_minutes: z.number().positive("1分以上を入力してください"),
+  fine: z.coerce
+    .number()
+    .int("整数で入力してください")
+    .max(100000, "10万円以下の金額を入力してください")
+    .refine((val) => val === 0 || val > 50, {
+      message: "1から50は設定できません。0または50以上の金額を入力してください",
+    }),
+  target_minutes: z
+    .number()
+    .int("整数で入力してください")
+    .positive("1分以上を入力してください"),
   requires_new_task_creation: z.boolean(),
 });
 
@@ -67,7 +77,6 @@ const CreateTask = () => {
       if (data.payment_url) {
         window.location.href = data.payment_url;
       }
-
     } catch (error) {
       console.error(error);
     }
@@ -128,6 +137,15 @@ const CreateTask = () => {
                   <FormLabel>円</FormLabel>
                 </div>
                 <FormMessage />
+                <Alert className="border-none bg-neutral-100">
+                  <Info className="w-4 h-4" />
+                  <AlertTitle className="font-semibold">
+                    お支払いについて
+                  </AlertTitle>
+                  <AlertDescription>
+                    現在は決済機能が未対応のため、金額設定に関わらず無料でのみお使いになれます。
+                  </AlertDescription>
+                </Alert>
               </FormItem>
             )}
           />
@@ -136,7 +154,7 @@ const CreateTask = () => {
             name="target_minutes"
             render={() => (
               <FormItem>
-                <FormLabel>目標作業時間</FormLabel>
+                <FormLabel>目標学習時間</FormLabel>
                 <FormControl>
                   <div className="flex items-center gap-4 flex-wrap">
                     <div className="flex gap-2 items-center">
@@ -269,11 +287,19 @@ const CreateTask = () => {
               onCheckedChange={() => setChecked(!checked)}
             />
             <p>
-              <Link href={"#"} className="border-b border-muted-foreground">
+              <Link
+                href={"/legal/terms"}
+                target="_blank"
+                className="border-b border-muted-foreground"
+              >
                 利用規約
               </Link>
               と
-              <Link href={"#"} className="border-b border-muted-foreground">
+              <Link
+                href={"/legal/privacy"}
+                target="_blank"
+                className="border-b border-muted-foreground"
+              >
                 プライバシーポリシー
               </Link>
               に同意する

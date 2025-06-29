@@ -137,13 +137,15 @@ const CreateTask = () => {
                   <FormLabel>円</FormLabel>
                 </div>
                 <FormMessage />
-                <Alert className="border-none bg-neutral-100">
+                <Alert className="border-none bg-secondary py-3.5">
                   <Info className="w-4 h-4" />
                   <AlertTitle className="font-semibold">
                     お支払いについて
                   </AlertTitle>
                   <AlertDescription>
-                    現在は決済機能が未対応のため、金額設定に関わらず無料でのみお使いになれます。
+                    現在決済機能は未接続のため、支払い情報の入力や実際の課金は発生しません。
+                    <br />
+                    設定金額に関わらず無料でのみお使いになれます。
                   </AlertDescription>
                 </Alert>
               </FormItem>

@@ -1,4 +1,5 @@
 import { Copyright } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -8,12 +9,12 @@ export default function Footer() {
         2025 everstudy
       </small>
       <div className="flex gap-1 text-xs text-neutral-800">
-        <a href="#" className="p-1 hover:opacity-70">
+        <Link href="/legal/terms" className="p-1 hover:opacity-70">
           利用規約
-        </a>
-        <a href="#" className="p-1 hover:opacity-70">
+        </Link>
+        <Link href="/legal/privacy" className="p-1 hover:opacity-70">
           プライバシーポリシー
-        </a>
+        </Link>
       </div>
     </div>
   );
